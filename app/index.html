@@ -18,7 +18,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <h2>Wallet is on address <span style="color: orange" id="walletAddress"></span> and contains <span style="color: red;" id="walletEther"></span> ether
+        <h2>Wallet is on address <span style="color: blue" id="walletAddress"></span> and contains <span style="color: blue;" id="walletEther"></span> ether
           <button type="button" class="btn btn-md btn-primary" onclick="App.submitEtherToWallet();">Send ether to wallet</button>
         </h2>
         <hr />
@@ -28,7 +28,7 @@
         </div>
         <div class="col-lg-6">
           <h3>Send Ether</h3>
-          <form onsubmit="App.submitTransaction(); return false;">
+          <form id="proposalForm" onsubmit="App.submitTransaction(); return false;">
             <div class="form-group">
               <label for="to">To (Address)</label>
               <input type="text" class="form-control" id="to" placeholder="0xDEADBEEF" />
@@ -47,14 +47,14 @@
       </div>
     </div>
     <hr />
-
+    <h2 style="color: blue;">Wallet Events</h2>
     <div class="row">
       <div class="col-lg-6">
-        <h3>Proposals Received</h3>
+        <h3>Proposals</h3>
         <div id="proposalEvents"></div>
       </div>
       <div class="col-lg-6">
-        <h3>Funds Received</h3>
+        <h3>Funds</h3>
         <div id="fundEvents"></div>
       </div>
     </div>

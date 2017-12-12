@@ -80,6 +80,7 @@ window.App = {
     var to = document.getElementById("to").value;
     var amount = parseInt(document.getElementById("amount").value);
     var reason = document.getElementById("reason").value;
+    document.getElementById("proposalForm").reset();
 
     MultiSigWallet.deployed().then(function(instance) {
       // thanks to truffle-contract
@@ -97,8 +98,7 @@ window.App = {
   listenToEvents: function() {
     MultiSigWallet.deployed().then(function(instance) {
       // contract event receivedFunds
-      instance.receivedFunds({_from: account}, {fromBlock: 0, toBlock: 'latest'}).watch(function(error, event) {
-        console.log(event);
+      instance.receivedFunds({}, {fromBlock: 0, toBlock: 'latest'}).watch(function(error, event) {
         var html = "<p>Block #" + event.blockNumber + " => ";
         html += "{_from: " + event.args._from + ", ";
         html += "_amount: " + web3.fromWei(event.args._amount, "ether") + " ether}</p>";
@@ -112,16 +112,30 @@ window.App = {
         var html = "<p>Block #" + event.blockNumber + " => ";
         html += "{_from: " + event.args._from + ", ";
         html += "_to: " + event.args._to + ", ";
-        html += "_reason: " + event.args._reason + "}</p>";
+        html += "_reason: " + event.args._reason + "}";
 
         return instance.wasProposalApproved(proposal_id).then(function(wasSent) {
           if (!wasSent) {
-            html += "<button type='button' class='btn btn-md btn-primary' onclick='App.confirmProposal(" + proposal_id + ");'>Approve</button>";
+            html += "<button id='" + proposal_id + "'type='button' class='btn btn-md btn-primary' onclick='App.confirmProposal(" + proposal_id + ");'>Approve</button></p>";
+          } else {
+            html += " ✅ approved</p>";
           }
           document.getElementById("proposalEvents").innerHTML += html;
         });
       });
 
+    });
+  },
+
+  confirmProposal: function(proposal_id) {
+    MultiSigWallet.deployed().then(function(instance) {
+      return instance.confirmProposal(proposal_id, {from: account, gas: 500000});
+    }).then(function(wasSent) {
+      if (wasSent) {
+        var button = document.getElementById(proposal_id);
+        button.style.display = "none";
+        button.parentElement.innerHTML += " ✅ approved"
+      }
     });
   }
 };
