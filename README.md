@@ -2,7 +2,7 @@
 
 Simple Dapp implementation of a multisig wallet on the Ethereum blockchain. Written in Solidity, using the [Truffle](https://github.com/trufflesuite/truffle) framework
 
-![](https://github.com/imthatcarlos/multisig-wallet-dapp/dapp.png)
+![alt text](https://github.com/imthatcarlos/multisig-wallet-dapp/dapp.png)
 
 ## To run locally, make sure you have testrpc listening on localhost:8545
 
